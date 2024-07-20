@@ -4,9 +4,9 @@ from PyPDF2 import PdfReader
 from langchain.llms import GooglePalm
 from langchain_google_genai import GoogleGenerativeAI
 
-st.header("ResumeMatcher")
+api_key = st.secrets["api_key"] 
 
-api_key = 'AIzaSyAemuKyW8j93M2OyoZK7A_voHoThxSxprU' 
+st.header("ResumeMatcher") 
 llm = GoogleGenerativeAI(model="models/text-bison-001", google_api_key=api_key, temperature=0.1)
 
 uploaded_file = st.file_uploader('Choose your .pdf file', type="pdf")
