@@ -20,7 +20,8 @@ if uploaded_file is not None:
     
     resume=text
 
-    prompt=f"""check strictly whether the {job} matches with the following details {resume}"""
+    prompt=f"""check strictly whether the {job} matches with the following details {resume}
+    if it does not matches suggest some skills needed to learn """
     if (len(text)==0):
         st.write("upload a valid file")
     else:
