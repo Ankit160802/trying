@@ -1,14 +1,29 @@
 import streamlit as st
 from langchain_community.document_loaders import PyPDFLoader
+from PyPDF2 import PdfReader
+from langchain.llms import GooglePalm
+from langchain_google_genai import GoogleGenerativeAI
 
 st.header("ResumeMatcher")
 
+api_key = 'AIzaSyAemuKyW8j93M2OyoZK7A_voHoThxSxprU' 
+llm = GoogleGenerativeAI(model="models/text-bison-001", google_api_key=api_key, temperature=0.1)
 
 uploaded_file = st.file_uploader('Choose your .pdf file', type="pdf")
-st.write(uploaded_file)
+job=st.text_area("add job description")
 if uploaded_file is not None:
-    loader=PyPDFLoader(uploaded_file)
-    text=loader.load()
-    whole_doc=text[0].page_content
-    st.write(whole_doc)
+    reader = PdfReader(uploaded_file)
+    number_of_pages = len(reader.pages)
+    page = reader.pages[0]
+    text = page.extract_text()
+    
+    
+    resume=text
+
+    prompt=f"""check strictly whether the {job} matches with the following details {resume}"""
+    if (len(text)==0):
+        st.write("upload a valid file")
+    else:
+        st.write(llm.invoke(prompt))
+    
 
